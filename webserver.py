@@ -8,17 +8,17 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.bind(('', int(port)))
 s.listen()
 
-new_conn = s.accept()
-new_socket = new_conn[0]
-
 while True:
+    new_conn = s.accept()
+    new_socket = new_conn[0]
+
     """ Get request in chunks of 1024 bytes, r is the buffer and it all gets sent
         eventually to request.
     """
-    r = s.recv(1024)
+    r = new_socket.recv(1024)
     request = r
     while len(r) != 0:
-        r = s.recv(1024)
+        r = new_socket.recv(1024)
         request = request.__add__(r)
 
     request = request.decode('ISO-8859-1')
